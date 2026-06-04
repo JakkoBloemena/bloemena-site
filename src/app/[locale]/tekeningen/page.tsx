@@ -13,7 +13,8 @@ export default async function DrawingsPage({ params }: { params: Promise<{ local
     .from('paintings')
     .select('*')
     .eq('category', 'tekening')
-    .order('sort_order')
+    .order('year', { ascending: false, nullsFirst: false })
+    .order('created_at', { ascending: false })
 
   return (
     <div className="max-w-6xl mx-auto px-5 py-12 bg-forest-50">
