@@ -15,27 +15,31 @@ export default async function OpZnPlekPage({ params }: { params: Promise<{ local
   const content = page ? (locale === 'nl' ? page.content_nl : page.content_en) : null
   const backHref = locale === 'nl' ? '/over-mij' : '/en/over-mij'
 
-  // Map photos to the Painting shape GalleryGrid expects
-  const paintings: Painting[] = (photos ?? []).map(p => ({
-    id: p.id,
-    title_nl: p.caption ?? '',
-    title_en: p.caption ?? '',
-    description_nl: null,
-    description_en: null,
-    image_url: p.image_url,
-    category: 'schilderij',
-    year: null,
-    width_cm: null,
-    height_cm: null,
-    medium_nl: null,
-    medium_en: null,
-    featured: false,
-    sort_order: 999,
-    for_sale: false,
-    price_eur: null,
-    collection_info: null,
-    created_at: p.created_at,
-  }))
+  // Map photos to the Painting shape GalleryGrid expects.
+  // Caption format: "Title — Description" — split for hover title vs lightbox body.
+  const paintings: Painting[] = (photos ?? []).map(p => {
+    const [title, description] = (p.caption ?? '').split(' — ')
+    return {
+      id: p.id,
+      title_nl: title ?? '',
+      title_en: title ?? '',
+      description_nl: description ?? null,
+      description_en: description ?? null,
+      image_url: p.image_url,
+      category: 'schilderij' as const,
+      year: null,
+      width_cm: null,
+      height_cm: null,
+      medium_nl: null,
+      medium_en: null,
+      featured: false,
+      sort_order: 999,
+      for_sale: false,
+      price_eur: null,
+      collection_info: null,
+      created_at: p.created_at,
+    }
+  })
 
   return (
     <div className="max-w-6xl mx-auto px-5 py-12">
