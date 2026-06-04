@@ -9,7 +9,7 @@ export default async function OpZnPlekPage({ params }: { params: Promise<{ local
 
   const [{ data: page }, { data: photos }] = await Promise.all([
     supabase.from('pages').select('*').eq('slug', 'op-zn-plek').single(),
-    supabase.from('op_zn_plek_photos').select('id, image_url, created_at').order('sort_order').order('created_at'),
+    supabase.from('op_zn_plek_photos').select('id, image_url, caption, created_at').order('sort_order').order('created_at'),
   ])
 
   const content = page ? (locale === 'nl' ? page.content_nl : page.content_en) : null
@@ -18,8 +18,8 @@ export default async function OpZnPlekPage({ params }: { params: Promise<{ local
   // Map photos to the Painting shape GalleryGrid expects
   const paintings: Painting[] = (photos ?? []).map(p => ({
     id: p.id,
-    title_nl: '',
-    title_en: '',
+    title_nl: p.caption ?? '',
+    title_en: p.caption ?? '',
     description_nl: null,
     description_en: null,
     image_url: p.image_url,

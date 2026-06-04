@@ -3,15 +3,16 @@
 import { useState, useRef } from 'react'
 import Image from 'next/image'
 import { createClient } from '@/lib/supabase/client'
-import { Trash2, Upload } from 'lucide-react'
+import { Trash2, Upload, Check } from 'lucide-react'
 
-interface Photo { id: string; image_url: string }
+interface Photo { id: string; image_url: string; caption: string | null }
 
 export default function PhotoManager({ initialPhotos }: { initialPhotos: Photo[] }) {
   const [photos, setPhotos] = useState(initialPhotos)
   const [uploading, setUploading] = useState(false)
   const [progress, setProgress] = useState('')
   const [error, setError] = useState('')
+  const [savedId, setSavedId] = useState<string | null>(null)
   const fileRef = useRef<HTMLInputElement>(null)
 
   async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
@@ -32,7 +33,7 @@ export default function PhotoManager({ initialPhotos }: { initialPhotos: Photo[]
       if (uploadErr) { setError('Upload mislukt: ' + uploadErr.message); continue }
 
       const { data: { publicUrl } } = supabase.storage.from('artwork').getPublicUrl(path)
-      const { data, error: dbErr } = await supabase.from('op_zn_plek_photos').insert({ image_url: publicUrl }).select('id, image_url').single()
+      const { data, error: dbErr } = await supabase.from('op_zn_plek_photos').insert({ image_url: publicUrl }).select('id, image_url, caption').single()
       if (dbErr) { setError('Opslaan mislukt: ' + dbErr.message); continue }
       if (data) newPhotos.push(data)
     }
@@ -50,6 +51,17 @@ export default function PhotoManager({ initialPhotos }: { initialPhotos: Photo[]
     setPhotos(prev => prev.filter(p => p.id !== photo.id))
   }
 
+  function handleCaptionChange(id: string, value: string) {
+    setPhotos(prev => prev.map(p => p.id === id ? { ...p, caption: value } : p))
+  }
+
+  async function handleCaptionSave(id: string, caption: string) {
+    const supabase = createClient()
+    await supabase.from('op_zn_plek_photos').update({ caption: caption || null }).eq('id', id)
+    setSavedId(id)
+    setTimeout(() => setSavedId(null), 1500)
+  }
+
   return (
     <div className="max-w-lg mx-auto px-4 pt-4 space-y-4 pb-10">
       <input ref={fileRef} type="file" accept="image/*" multiple className="hidden" onChange={handleUpload} />
@@ -65,17 +77,30 @@ export default function PhotoManager({ initialPhotos }: { initialPhotos: Photo[]
       {error && <p className="text-red-600 text-sm bg-red-50 border border-red-200 rounded-lg px-3 py-2">{error}</p>}
 
       {photos.length > 0 ? (
-        <div className="grid grid-cols-3 gap-2">
+        <div className="space-y-3">
           {photos.map((photo) => (
-            <div key={photo.id} className="relative group">
-              <div className="relative aspect-square rounded-lg overflow-hidden bg-stone-100">
+            <div key={photo.id} className="flex gap-3 items-start bg-white rounded-xl p-3 shadow-sm">
+              <div className="relative w-20 h-20 shrink-0 rounded-lg overflow-hidden bg-stone-100">
                 <Image src={photo.image_url} alt="" fill className="object-cover" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <input
+                  type="text"
+                  value={photo.caption ?? ''}
+                  onChange={e => handleCaptionChange(photo.id, e.target.value)}
+                  onBlur={e => handleCaptionSave(photo.id, e.target.value)}
+                  placeholder="Titel / locatie…"
+                  className="w-full text-sm border border-stone-200 rounded-lg px-3 py-2 focus:outline-none focus:border-amber-400 bg-stone-50"
+                />
+                {savedId === photo.id && (
+                  <p className="text-xs text-green-600 mt-1 flex items-center gap-1"><Check size={11} /> Opgeslagen</p>
+                )}
               </div>
               <button
                 onClick={() => handleDelete(photo)}
-                className="absolute top-1.5 right-1.5 w-7 h-7 bg-white/90 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-50 text-stone-500 hover:text-red-600"
+                className="shrink-0 text-stone-300 hover:text-red-500 transition-colors mt-1"
               >
-                <Trash2 size={13} />
+                <Trash2 size={15} />
               </button>
             </div>
           ))}

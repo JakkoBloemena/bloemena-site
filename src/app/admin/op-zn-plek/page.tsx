@@ -11,7 +11,7 @@ export default async function AdminOpZnPlekPage() {
 
   const { data: photos } = await supabase
     .from('op_zn_plek_photos')
-    .select('id, image_url')
+    .select('id, image_url, caption')
     .order('sort_order')
     .order('created_at')
 
