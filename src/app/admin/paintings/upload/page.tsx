@@ -25,6 +25,7 @@ export default function UploadPaintingPage() {
     for_sale: false,
     price_eur: '',
     collection_info: '',
+    sort_order: '',
   })
 
   function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
@@ -65,6 +66,7 @@ export default function UploadPaintingPage() {
       medium_nl: form.medium || null,
       medium_en: form.medium || null,
       featured: form.featured,
+      sort_order: form.featured && form.sort_order ? parseInt(form.sort_order) : 999,
       for_sale: form.for_sale,
       price_eur: form.for_sale && form.price_eur ? parseFloat(form.price_eur) : null,
       collection_info: !form.for_sale && form.collection_info ? form.collection_info : null,
@@ -212,15 +214,25 @@ export default function UploadPaintingPage() {
           )}
         </div>
 
-        {/* Featured */}
-        <label className="flex items-center gap-3 cursor-pointer">
-          <input type="checkbox" checked={form.featured} onChange={(e) => set('featured', e.target.checked)}
-            className="w-4 h-4 accent-amber-600" />
-          <div>
-            <span className="text-sm font-medium text-stone-700">Uitgelicht op homepage</span>
-            <p className="text-xs text-stone-400">Dit werk verschijnt in de slideshow op de voorpagina</p>
-          </div>
-        </label>
+        {/* Featured + order */}
+        <div className="space-y-3">
+          <label className="flex items-center gap-3 cursor-pointer">
+            <input type="checkbox" checked={form.featured} onChange={(e) => set('featured', e.target.checked)}
+              className="w-4 h-4 accent-amber-600" />
+            <div>
+              <span className="text-sm font-medium text-stone-700">Uitgelicht op homepage</span>
+              <p className="text-xs text-stone-400">Dit werk verschijnt in de slideshow op de voorpagina</p>
+            </div>
+          </label>
+          {form.featured && (
+            <div className="ml-7">
+              <label className="block text-sm font-medium text-stone-700 mb-1">Volgorde in slideshow</label>
+              <input type="number" min="1" value={form.sort_order} onChange={(e) => set('sort_order', e.target.value)}
+                placeholder="1 = eerste, 2 = tweede…"
+                className="w-48 border border-stone-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-amber-500" />
+            </div>
+          )}
+        </div>
 
         {error && <p className="text-red-600 text-sm bg-red-50 border border-red-200 rounded px-3 py-2">{error}</p>}
 
