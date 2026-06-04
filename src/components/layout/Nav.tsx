@@ -26,15 +26,19 @@ export default function Nav({ locale }: { locale: string }) {
   const switchPath = pathname.replace(`/${locale}`, `/${otherLocale}`)
 
   return (
-    <header className="sticky top-0 z-50 bg-stone-50/95 backdrop-blur border-b border-stone-200">
-      <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+    <header className="sticky top-0 z-50 bg-canvas/95 backdrop-blur border-b border-forest-100">
+      <div className="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between gap-8">
+
         {/* Logo */}
-        <Link href={`/${locale}`} className="font-playfair text-lg font-bold tracking-wide hover:text-amber-700 transition-colors">
+        <Link
+          href={`/${locale}`}
+          className="font-playfair text-lg font-bold text-forest-900 hover:text-ochre-500 transition-colors shrink-0"
+        >
           Wiebe Bloemena
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-6 text-sm font-medium tracking-wide uppercase">
+        <nav className="hidden md:flex items-center gap-7 text-xs font-medium tracking-widest uppercase">
           {navKeys.map((key) => {
             const href = `/${locale}${navHrefs[key]}`
             const active = pathname.startsWith(href)
@@ -42,34 +46,35 @@ export default function Nav({ locale }: { locale: string }) {
               <Link
                 key={key}
                 href={href}
-                className={`transition-colors hover:text-amber-700 ${active ? 'text-amber-700 border-b-2 border-amber-700 pb-0.5' : 'text-stone-600'}`}
+                className={`transition-colors pb-0.5 ${
+                  active
+                    ? 'text-ochre-500 border-b border-ochre-500'
+                    : 'text-ink-muted hover:text-forest-900'
+                }`}
               >
                 {t(key)}
               </Link>
             )
           })}
-          <Link
-            href={switchPath}
-            className="ml-2 px-2.5 py-1 text-xs border border-stone-300 rounded hover:border-amber-600 hover:text-amber-700 transition-colors"
-          >
-            {otherLocale.toUpperCase()}
-          </Link>
         </nav>
 
-        {/* Mobile toggle */}
-        <div className="flex md:hidden items-center gap-3">
-          <Link href={switchPath} className="text-xs px-2 py-1 border border-stone-300 rounded">
-            {otherLocale.toUpperCase()}
+        {/* Lang toggle + mobile */}
+        <div className="flex items-center gap-3 shrink-0">
+          <Link
+            href={switchPath}
+            className="text-xs font-medium tracking-widest uppercase px-2.5 py-1 border border-forest-200 text-ink-muted rounded-sm hover:border-ochre-500 hover:text-ochre-500 transition-colors"
+          >
+            {otherLocale}
           </Link>
-          <button onClick={() => setOpen(!open)} aria-label="Menu">
-            {open ? <X size={22} /> : <Menu size={22} />}
+          <button onClick={() => setOpen(!open)} className="md:hidden text-forest-900" aria-label="Menu">
+            {open ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
       </div>
 
       {/* Mobile menu */}
       {open && (
-        <div className="md:hidden border-t border-stone-200 bg-stone-50">
+        <div className="md:hidden border-t border-forest-100 bg-canvas">
           {navKeys.map((key) => {
             const href = `/${locale}${navHrefs[key]}`
             const active = pathname.startsWith(href)
@@ -78,7 +83,9 @@ export default function Nav({ locale }: { locale: string }) {
                 key={key}
                 href={href}
                 onClick={() => setOpen(false)}
-                className={`block px-6 py-3 text-sm uppercase tracking-wide border-b border-stone-100 ${active ? 'text-amber-700 font-semibold' : 'text-stone-600'}`}
+                className={`block px-5 py-3.5 text-xs uppercase tracking-widest font-medium border-b border-forest-50 ${
+                  active ? 'text-ochre-500' : 'text-ink-muted'
+                }`}
               >
                 {t(key)}
               </Link>

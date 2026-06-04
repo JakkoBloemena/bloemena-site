@@ -4,10 +4,39 @@
 @theme {
   --font-playfair: var(--font-playfair);
   --font-inter: var(--font-inter);
+
+  /* Palette derived from Wiebe's paintings */
+  --color-forest-950: #0e1a0f;
+  --color-forest-900: #1b2e1c;
+  --color-forest-800: #2d4a2f;
+  --color-forest-700: #3d6040;
+  --color-forest-200: #c4d4c0;
+  --color-forest-100: #e2ebe0;
+  --color-forest-50:  #f2f7f1;
+
+  --color-ochre-600: #a86e22;
+  --color-ochre-500: #c4893a;
+  --color-ochre-400: #d4a050;
+  --color-ochre-100: #f5e8d0;
+  --color-ochre-50:  #fdf6ec;
+
+  --color-slate-600: #4a6e85;
+  --color-slate-400: #6b8fa8;
+  --color-slate-200: #b8ccd8;
+  --color-slate-50:  #f0f5f8;
+
+  --color-canvas:    #faf8f3;
+  --color-parchment: #f0e8d4;
+  --color-ink:       #1e1a14;
+  --color-ink-muted: #5a5040;
 }
+
+* { box-sizing: border-box; }
 
 body {
   font-family: var(--font-inter, system-ui, sans-serif);
+  background: var(--color-canvas);
+  color: var(--color-ink);
 }
 
 .font-playfair {

@@ -39,7 +39,7 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} className={`${playfair.variable} ${inter.variable}`}>
-      <body className="min-h-screen flex flex-col bg-stone-50 text-stone-900 antialiased">
+      <body className="min-h-screen flex flex-col bg-canvas text-ink antialiased">
         <NextIntlClientProvider messages={messages}>
           <Nav locale={locale} />
           <main className="flex-1">{children}</main>

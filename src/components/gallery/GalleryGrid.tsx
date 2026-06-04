@@ -35,7 +35,7 @@ export default function GalleryGrid({ paintings, locale, galleryLabels }: Props)
           <button
             key={p.id}
             onClick={() => setSelected(i)}
-            className="group relative aspect-square overflow-hidden rounded-sm bg-stone-100 focus:outline-none focus:ring-2 focus:ring-amber-600"
+            className="group relative aspect-square overflow-hidden bg-forest-100 focus:outline-none focus:ring-2 focus:ring-ochre-500"
           >
             <Image
               src={p.image_url}
@@ -44,8 +44,8 @@ export default function GalleryGrid({ paintings, locale, galleryLabels }: Props)
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
               className="object-cover transition-transform duration-500 group-hover:scale-105"
             />
-            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-end">
-              <p className="translate-y-full group-hover:translate-y-0 transition-transform text-white text-xs font-medium px-3 py-2 w-full truncate">
+            <div className="absolute inset-0 bg-forest-950/0 group-hover:bg-forest-950/40 transition-colors flex items-end">
+              <p className="translate-y-full group-hover:translate-y-0 transition-transform text-canvas text-xs font-medium px-3 py-2 w-full truncate">
                 {title(p)}{p.year ? ` — ${p.year}` : ''}
               </p>
             </div>
@@ -56,7 +56,7 @@ export default function GalleryGrid({ paintings, locale, galleryLabels }: Props)
       {/* Lightbox */}
       {current && (
         <div
-          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 bg-forest-950/95 flex items-center justify-center p-4"
           onClick={() => setSelected(null)}
         >
           <button
@@ -93,9 +93,9 @@ export default function GalleryGrid({ paintings, locale, galleryLabels }: Props)
               />
             </div>
             <div className="text-white md:w-56 flex-shrink-0">
-              <h2 className="font-playfair text-xl font-semibold mb-2">{title(current)}</h2>
-              {desc(current) && <p className="text-white/80 text-sm mb-4">{desc(current)}</p>}
-              <dl className="text-sm space-y-1 text-white/60">
+              <h2 className="font-playfair text-xl font-semibold text-canvas mb-2">{title(current)}</h2>
+              {desc(current) && <p className="text-forest-200 text-sm mb-4">{desc(current)}</p>}
+              <dl className="text-sm space-y-1 text-forest-400">
                 {current.year && <div><dt className="inline font-medium">{galleryLabels.year}: </dt><dd className="inline">{current.year}</dd></div>}
                 {medium(current) && <div><dt className="inline font-medium">{galleryLabels.medium}: </dt><dd className="inline">{medium(current)}</dd></div>}
                 {current.width_cm && current.height_cm && (

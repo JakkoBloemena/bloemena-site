@@ -7,7 +7,6 @@ import type { Locale } from '@/types'
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   const t = await getTranslations('home')
-  const nav = await getTranslations('nav')
   const supabase = await createClient()
 
   const { data: featured } = await supabase
@@ -28,44 +27,56 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
 
   return (
     <>
-      {/* Hero */}
-      <section className="bg-stone-900 text-stone-100 py-24 px-4 text-center">
-        <h1 className="font-playfair text-5xl md:text-7xl font-bold mb-3 tracking-tight">
-          Wiebe Bloemena
-        </h1>
-        <p className="text-stone-400 text-lg md:text-xl font-light tracking-widest uppercase mb-10">
-          {t('tagline')}
-        </p>
-        <div className="flex gap-4 justify-center flex-wrap">
-          <Link
-            href={`/${locale}/schilderijen`}
-            className="px-6 py-3 bg-amber-600 text-white font-medium hover:bg-amber-500 transition-colors rounded-sm"
-          >
-            {t('viewPaintings')}
-          </Link>
-          <Link
-            href={`/${locale}/tekeningen`}
-            className="px-6 py-3 border border-stone-500 text-stone-300 hover:border-amber-500 hover:text-amber-400 transition-colors rounded-sm"
-          >
-            {t('viewDrawings')}
-          </Link>
+      {/* Hero — deep forest green */}
+      <section className="relative bg-forest-900 text-canvas overflow-hidden">
+        {/* Subtle texture overlay */}
+        <div className="absolute inset-0 opacity-5"
+          style={{ backgroundImage: 'radial-gradient(circle at 20% 80%, #6b8fa8 0%, transparent 50%), radial-gradient(circle at 80% 20%, #c4893a 0%, transparent 50%)' }}
+        />
+        <div className="relative max-w-4xl mx-auto px-5 py-28 md:py-40 text-center">
+          <p className="text-forest-200 text-xs tracking-[0.3em] uppercase mb-6 font-medium">
+            {t('tagline')}
+          </p>
+          <h1 className="font-playfair text-6xl md:text-8xl font-bold leading-none tracking-tight mb-10">
+            Wiebe<br />
+            <span className="text-ochre-400">Bloemena</span>
+          </h1>
+          <div className="flex gap-4 justify-center flex-wrap">
+            <Link
+              href={`/${locale}/schilderijen`}
+              className="px-7 py-3 bg-ochre-500 text-canvas text-sm font-medium tracking-wide hover:bg-ochre-400 transition-colors rounded-sm"
+            >
+              {t('viewPaintings')}
+            </Link>
+            <Link
+              href={`/${locale}/tekeningen`}
+              className="px-7 py-3 border border-forest-700 text-forest-200 text-sm font-medium tracking-wide hover:border-ochre-500 hover:text-ochre-400 transition-colors rounded-sm"
+            >
+              {t('viewDrawings')}
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* Featured paintings */}
+      {/* Featured paintings grid */}
       {featured && featured.length > 0 && (
-        <section className="py-16 px-4">
+        <section className="py-16 px-5 bg-canvas">
           <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-3">
               {featured.map((p) => (
-                <Link key={p.id} href={`/${locale}/schilderijen`} className="group relative aspect-[4/3] overflow-hidden rounded-sm bg-stone-200 block">
+                <Link
+                  key={p.id}
+                  href={`/${locale}/schilderijen`}
+                  className="group relative aspect-[4/3] overflow-hidden bg-forest-100 block"
+                >
                   <Image
                     src={p.image_url}
-                    alt={title(p)}
+                    alt={locale === 'nl' ? p.title_nl : p.title_en}
                     fill
                     sizes="(max-width: 768px) 50vw, 33vw"
                     className="object-cover transition-transform duration-700 group-hover:scale-105"
                   />
+                  <div className="absolute inset-0 bg-forest-950/0 group-hover:bg-forest-950/20 transition-colors" />
                 </Link>
               ))}
             </div>
@@ -73,51 +84,87 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         </section>
       )}
 
-      {/* Quote */}
-      <section className="py-16 px-4 bg-amber-50 border-y border-amber-100">
+      {/* Quote — parchment */}
+      <section className="py-20 px-5 bg-parchment">
         <div className="max-w-3xl mx-auto text-center">
-          <blockquote className="font-playfair text-xl md:text-2xl text-stone-700 italic leading-relaxed mb-4">
+          {/* Decorative line */}
+          <div className="flex items-center gap-4 justify-center mb-8">
+            <div className="h-px w-16 bg-ochre-500/40" />
+            <div className="w-1.5 h-1.5 rounded-full bg-ochre-500/60" />
+            <div className="h-px w-16 bg-ochre-500/40" />
+          </div>
+          <blockquote className="font-playfair text-xl md:text-2xl text-forest-900 italic leading-relaxed mb-5">
             {t('quote')}
           </blockquote>
-          <cite className="text-stone-500 text-sm not-italic">{t('quoteAuthor')}</cite>
+          <cite className="text-ink-muted text-sm not-italic tracking-wide">{t('quoteAuthor')}</cite>
+          <div className="flex items-center gap-4 justify-center mt-8">
+            <div className="h-px w-16 bg-ochre-500/40" />
+            <div className="w-1.5 h-1.5 rounded-full bg-ochre-500/60" />
+            <div className="h-px w-16 bg-ochre-500/40" />
+          </div>
         </div>
       </section>
 
       {/* Latest news */}
       {posts && posts.length > 0 && (
-        <section className="py-16 px-4">
+        <section className="py-16 px-5 bg-canvas">
           <div className="max-w-4xl mx-auto">
-            <h2 className="font-playfair text-3xl font-bold mb-10">{t('latestNews')}</h2>
-            <div className="space-y-6">
+            <div className="flex items-end justify-between mb-10">
+              <h2 className="font-playfair text-3xl font-bold text-forest-900">{t('latestNews')}</h2>
+              <Link href={`/${locale}/nieuws`} className="text-xs text-ochre-500 hover:text-ochre-600 uppercase tracking-widest font-medium hidden sm:block">
+                {t('allNews')} →
+              </Link>
+            </div>
+            <div className="divide-y divide-forest-100">
               {posts.map((post) => (
-                <article key={post.id} className="flex gap-5 group">
+                <article key={post.id} className="py-6 flex gap-5 group">
                   {post.image_url && (
-                    <div className="relative w-24 h-24 flex-shrink-0 overflow-hidden rounded-sm bg-stone-100">
-                      <Image src={post.image_url} alt="" fill className="object-cover group-hover:scale-105 transition-transform" />
+                    <div className="relative w-20 h-20 shrink-0 overflow-hidden bg-forest-100">
+                      <Image
+                        src={post.image_url}
+                        alt=""
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
                     </div>
                   )}
-                  <div>
-                    <time className="text-xs text-stone-400 uppercase tracking-wide">
-                      {new Date(post.published_at).toLocaleDateString(locale === 'nl' ? 'nl-NL' : 'en-GB', { year: 'numeric', month: 'long', day: 'numeric' })}
+                  <div className="flex-1 min-w-0">
+                    <time className="text-xs text-ink-muted uppercase tracking-widest">
+                      {new Date(post.published_at).toLocaleDateString(
+                        locale === 'nl' ? 'nl-NL' : 'en-GB',
+                        { year: 'numeric', month: 'long', day: 'numeric' }
+                      )}
                     </time>
-                    <h3 className="font-playfair text-lg font-semibold mt-1 mb-2 group-hover:text-amber-700 transition-colors">
+                    <h3 className="font-playfair text-lg font-semibold mt-1 text-forest-900 group-hover:text-ochre-500 transition-colors">
                       <Link href={`/${locale}/nieuws/${post.id}`}>{title(post)}</Link>
                     </h3>
-                    <Link href={`/${locale}/nieuws/${post.id}`} className="text-xs text-amber-700 hover:underline uppercase tracking-wide">
-                      {t('readMore')} →
-                    </Link>
                   </div>
                 </article>
               ))}
             </div>
-            <div className="mt-10">
-              <Link href={`/${locale}/nieuws`} className="text-sm text-amber-700 hover:underline font-medium">
+            <div className="mt-6 sm:hidden">
+              <Link href={`/${locale}/nieuws`} className="text-xs text-ochre-500 uppercase tracking-widest font-medium">
                 {t('allNews')} →
               </Link>
             </div>
           </div>
         </section>
       )}
+
+      {/* CTA strip */}
+      <section className="py-16 px-5 bg-forest-900 text-canvas text-center">
+        <p className="font-playfair text-2xl md:text-3xl italic text-forest-200 mb-6">
+          {locale === 'nl' ? 'Bekijk het volledige oeuvre' : 'Explore the full collection'}
+        </p>
+        <div className="flex gap-4 justify-center flex-wrap">
+          <Link href={`/${locale}/schilderijen`} className="px-6 py-2.5 bg-ochre-500 text-canvas text-sm tracking-wide hover:bg-ochre-400 transition-colors rounded-sm">
+            {t('viewPaintings')}
+          </Link>
+          <Link href={`/${locale}/tekeningen`} className="px-6 py-2.5 border border-forest-700 text-forest-200 text-sm tracking-wide hover:border-ochre-500 hover:text-ochre-400 transition-colors rounded-sm">
+            {t('viewDrawings')}
+          </Link>
+        </div>
+      </section>
     </>
   )
 }

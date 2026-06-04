@@ -3,9 +3,11 @@ import { useTranslations } from 'next-intl'
 export default function Footer() {
   const t = useTranslations('footer')
   return (
-    <footer className="border-t border-stone-200 py-8 text-center text-sm text-stone-500">
-      <p className="font-playfair text-base font-semibold text-stone-700 mb-1">Wiebe Bloemena</p>
-      <p>&copy; {new Date().getFullYear()} — {t('rights')}</p>
+    <footer className="bg-forest-950 py-10 text-center">
+      <p className="font-playfair text-lg font-semibold text-forest-200 mb-1">Wiebe Bloemena</p>
+      <p className="text-forest-700 text-xs tracking-widest uppercase">
+        &copy; {new Date().getFullYear()} — {t('rights')}
+      </p>
     </footer>
   )
 }
