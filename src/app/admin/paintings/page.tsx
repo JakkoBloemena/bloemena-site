@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { Plus, ArrowLeft } from 'lucide-react'
 import DeletePaintingButton from './DeletePaintingButton'
+import ToggleFeatured from './ToggleFeatured'
 
 export default async function AdminPaintingsPage() {
   const supabase = await createClient()
@@ -40,7 +41,7 @@ export default async function AdminPaintingsPage() {
                   <th className="text-left px-4 py-3 font-medium text-stone-600">Titel</th>
                   <th className="text-left px-4 py-3 font-medium text-stone-600 hidden sm:table-cell">Type</th>
                   <th className="text-left px-4 py-3 font-medium text-stone-600 hidden sm:table-cell">Jaar</th>
-                  <th className="text-left px-4 py-3 font-medium text-stone-600 hidden md:table-cell">Uitgelicht</th>
+                  <th className="text-left px-4 py-3 font-medium text-stone-600 hidden md:table-cell" title="Ster = zichtbaar op voorpagina">★ Voorpagina</th>
                   <th className="px-4 py-3 w-24"></th>
                 </tr>
               </thead>
@@ -56,7 +57,7 @@ export default async function AdminPaintingsPage() {
                     <td className="px-4 py-3 text-stone-500 hidden sm:table-cell capitalize">{p.category}</td>
                     <td className="px-4 py-3 text-stone-500 hidden sm:table-cell">{p.year ?? '—'}</td>
                     <td className="px-4 py-3 hidden md:table-cell">
-                      <span className={`inline-block w-2 h-2 rounded-full ${p.featured ? 'bg-amber-500' : 'bg-stone-300'}`} />
+                      <ToggleFeatured id={p.id} featured={p.featured} />
                     </td>
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-2 justify-end">
