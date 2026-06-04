@@ -35,7 +35,7 @@ export default function GalleryGrid({ paintings, locale, galleryLabels }: Props)
           <button
             key={p.id}
             onClick={() => setSelected(i)}
-            className="group relative aspect-square overflow-hidden bg-forest-100 focus:outline-none focus:ring-2 focus:ring-ochre-500"
+            className="group relative aspect-square overflow-hidden bg-forest-200 focus:outline-none focus:ring-2 focus:ring-ochre-500"
           >
             <Image
               src={p.image_url}

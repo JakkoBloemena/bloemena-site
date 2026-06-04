@@ -74,7 +74,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
 
       {/* Latest news */}
       {posts && posts.length > 0 && (
-        <section className="py-16 px-5 bg-canvas">
+        <section className="py-16 px-5 bg-forest-50">
           <div className="max-w-4xl mx-auto">
             <div className="flex items-end justify-between mb-10">
               <h2 className="font-playfair text-3xl font-bold text-forest-900">{t('latestNews')}</h2>

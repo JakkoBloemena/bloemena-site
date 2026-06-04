@@ -16,11 +16,11 @@ export default function UploadPaintingPage() {
   const [error, setError] = useState('')
 
   const [form, setForm] = useState({
-    title_nl: '', title_en: '',
-    description_nl: '', description_en: '',
+    title: '',
+    description: '',
     category: 'schilderij',
     year: '', width_cm: '', height_cm: '',
-    medium_nl: '', medium_en: '',
+    medium: '',
     featured: false,
   })
 
@@ -51,16 +51,16 @@ export default function UploadPaintingPage() {
     const { data: { publicUrl } } = supabase.storage.from('artwork').getPublicUrl(path)
 
     const { error: dbErr } = await supabase.from('paintings').insert({
-      title_nl: form.title_nl,
-      title_en: form.title_en || form.title_nl,
-      description_nl: form.description_nl || null,
-      description_en: form.description_en || null,
+      title_nl: form.title,
+      title_en: form.title,
+      description_nl: form.description || null,
+      description_en: form.description || null,
       category: form.category,
       year: form.year ? parseInt(form.year) : null,
       width_cm: form.width_cm ? parseFloat(form.width_cm) : null,
       height_cm: form.height_cm ? parseFloat(form.height_cm) : null,
-      medium_nl: form.medium_nl || null,
-      medium_en: form.medium_en || null,
+      medium_nl: form.medium || null,
+      medium_en: form.medium || null,
       featured: form.featured,
       image_url: publicUrl,
       sort_order: 999,
@@ -136,32 +136,18 @@ export default function UploadPaintingPage() {
           </div>
         </div>
 
-        {/* Titles */}
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-stone-700 mb-1">Titel (NL) *</label>
-            <input value={form.title_nl} onChange={(e) => set('title_nl', e.target.value)} required
-              className="w-full border border-stone-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-amber-500" />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-stone-700 mb-1">Titel (EN)</label>
-            <input value={form.title_en} onChange={(e) => set('title_en', e.target.value)} placeholder="Zelfde als NL"
-              className="w-full border border-stone-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-amber-500" />
-          </div>
+        {/* Title */}
+        <div>
+          <label className="block text-sm font-medium text-stone-700 mb-1">Titel *</label>
+          <input value={form.title} onChange={(e) => set('title', e.target.value)} required
+            className="w-full border border-stone-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-amber-500" />
         </div>
 
-        {/* Descriptions */}
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-stone-700 mb-1">Omschrijving (NL)</label>
-            <textarea value={form.description_nl} onChange={(e) => set('description_nl', e.target.value)} rows={3}
-              className="w-full border border-stone-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-amber-500 resize-none" />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-stone-700 mb-1">Omschrijving (EN)</label>
-            <textarea value={form.description_en} onChange={(e) => set('description_en', e.target.value)} rows={3}
-              className="w-full border border-stone-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-amber-500 resize-none" />
-          </div>
+        {/* Description */}
+        <div>
+          <label className="block text-sm font-medium text-stone-700 mb-1">Omschrijving</label>
+          <textarea value={form.description} onChange={(e) => set('description', e.target.value)} rows={3}
+            className="w-full border border-stone-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-amber-500 resize-none" />
         </div>
 
         {/* Details */}
@@ -183,17 +169,10 @@ export default function UploadPaintingPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-stone-700 mb-1">Techniek (NL)</label>
-            <input value={form.medium_nl} onChange={(e) => set('medium_nl', e.target.value)} placeholder="bijv. Olieverf op linnen"
-              className="w-full border border-stone-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-amber-500" />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-stone-700 mb-1">Techniek (EN)</label>
-            <input value={form.medium_en} onChange={(e) => set('medium_en', e.target.value)} placeholder="e.g. Oil on canvas"
-              className="w-full border border-stone-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-amber-500" />
-          </div>
+        <div>
+          <label className="block text-sm font-medium text-stone-700 mb-1">Techniek</label>
+          <input value={form.medium} onChange={(e) => set('medium', e.target.value)} placeholder="bijv. Olieverf op linnen"
+            className="w-full border border-stone-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-amber-500" />
         </div>
 
         {/* Featured */}

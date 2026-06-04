@@ -44,7 +44,7 @@ export default function Nav({ locale }: { locale: string }) {
   const isAboutActive = pathname.includes('/over-mij')
 
   return (
-    <header className="sticky top-0 z-50 bg-canvas/95 backdrop-blur border-b border-forest-100">
+    <header className="sticky top-0 z-50 bg-forest-50/95 backdrop-blur border-b border-forest-200">
       <div className="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between gap-6">
 
         {/* Logo */}
@@ -78,7 +78,7 @@ export default function Nav({ locale }: { locale: string }) {
               OVER MIJ <ChevronDown size={12} className="opacity-60 group-hover:opacity-100 transition-opacity" />
             </Link>
             <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 z-50">
-              <div className="bg-canvas border border-forest-100 shadow-lg rounded-sm min-w-[220px] py-1">
+              <div className="bg-forest-50 border border-forest-200 shadow-lg rounded-sm min-w-[220px] py-1">
                 {aboutSubmenu.map((item) => (
                   <Link key={item.key} href={localePath(locale, item.href)}
                     className="block px-4 py-2.5 text-xs tracking-widest text-ink-muted hover:text-forest-900 hover:bg-forest-50 transition-colors">
@@ -118,7 +118,7 @@ export default function Nav({ locale }: { locale: string }) {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="md:hidden border-t border-forest-100 bg-canvas">
+        <div className="md:hidden border-t border-forest-100 bg-forest-50">
           {/* Schilderijen, Tekeningen */}
           {(['paintings', 'drawings'] as const).map((key) => {
             const href = localePath(locale, navHrefs[key])
