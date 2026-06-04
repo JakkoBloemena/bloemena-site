@@ -4,14 +4,9 @@ import { createClient } from '@/lib/supabase/server'
 import { ImageIcon, FileText, BookOpen, LogOut, ChevronRight, Star, Camera } from 'lucide-react'
 
 const contentPages = [
-  { slug: 'over-mij',          label: 'Over mij' },
-  { slug: 'tentoonstellingen', label: 'Tentoonstellingen' },
-  { slug: 'publicaties',       label: 'Publicaties' },
-  { slug: 'projecten',         label: 'Projecten' },
-  { slug: 'collecties',        label: 'Collecties' },
-  { slug: 'recensies',         label: 'Recensies' },
-  { slug: 'op-zn-plek',        label: "Op z'n plek" },
-  { slug: 'schilderlessen',    label: 'Schilderlessen' },
+  { slug: 'over-mij',       label: 'Over mij' },
+  { slug: 'collecties',     label: 'Collecties' },
+  { slug: 'schilderlessen', label: 'Schilderlessen' },
 ]
 
 export default async function AdminPage() {
