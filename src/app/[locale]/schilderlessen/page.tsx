@@ -111,7 +111,7 @@ export default async function LessonsPage({ params }: { params: Promise<{ locale
           <span className="block font-medium text-forest-900">Atelier Wiebe Bloemena</span>
           <span className="block">Jacob Catsstraat 2</span>
           <span className="block">7576 BS Oldenzaal</span>
-          <span className="block">Twente</span>
+          <span className="block">Twente, Overijssel, Nederland</span>
         </address>
 
         <div className="rounded-xl overflow-hidden border border-forest-100 mb-4">

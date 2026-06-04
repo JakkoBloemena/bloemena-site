@@ -3,6 +3,8 @@ import Link from 'next/link'
 const WHATSAPP = 'https://wa.me/31638036823'
 const PHONE = 'tel:+31638036823'
 const EMAIL = 'mailto:wbloemena@hotmail.com'
+const MAPS_EMBED = 'https://maps.google.com/maps?q=Jacob+Catsstraat+2,+7576+BS+Oldenzaal&output=embed&z=16'
+const MAPS_DIRECTIONS = 'https://www.google.com/maps/dir/?api=1&destination=Jacob+Catsstraat+2%2C+7576+BS+Oldenzaal'
 
 export default async function ContactPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
@@ -63,6 +65,42 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
           </div>
         </a>
       </div>
+
+      <section className="mt-12" aria-label={isNl ? 'Locatie' : 'Location'}>
+        <h2 className="font-playfair text-2xl font-bold text-forest-900 mb-3">
+          {isNl ? 'Waar?' : 'Where?'}
+        </h2>
+        <address className="not-italic text-ink-muted mb-5 leading-relaxed">
+          <span className="block font-medium text-forest-900">Atelier Wiebe Bloemena</span>
+          <span className="block">Jacob Catsstraat 2</span>
+          <span className="block">7576 BS Oldenzaal</span>
+          <span className="block">Twente, Overijssel, Nederland</span>
+        </address>
+
+        <div className="rounded-xl overflow-hidden border border-forest-100 mb-4">
+          <iframe
+            src={MAPS_EMBED}
+            width="100%"
+            height="300"
+            style={{ border: 0 }}
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            title={isNl ? 'Atelier Wiebe Bloemena, Oldenzaal' : 'Studio Wiebe Bloemena, Oldenzaal'}
+          />
+        </div>
+
+        <a
+          href={MAPS_DIRECTIONS}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 bg-forest-900 text-white font-medium text-sm px-5 py-2.5 rounded-lg hover:bg-forest-800 transition-colors"
+        >
+          <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polygon points="3 11 22 2 13 21 11 13 3 11"/>
+          </svg>
+          {isNl ? 'Route starten' : 'Get directions'}
+        </a>
+      </section>
     </div>
   )
 }
