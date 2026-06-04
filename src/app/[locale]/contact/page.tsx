@@ -67,9 +67,6 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
       </div>
 
       <section className="mt-12" aria-label={isNl ? 'Locatie' : 'Location'}>
-        <h2 className="font-playfair text-2xl font-bold text-forest-900 mb-3">
-          {isNl ? 'Waar?' : 'Where?'}
-        </h2>
         <address className="not-italic text-ink-muted mb-5 leading-relaxed">
           <span className="block font-medium text-forest-900">Atelier Wiebe Bloemena</span>
           <span className="block">Jacob Catsstraat 2</span>

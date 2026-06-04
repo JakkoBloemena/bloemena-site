@@ -21,7 +21,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
           alt="Wiebe Bloemena"
           width={1200}
           height={800}
-          className="w-full h-auto rounded-xl"
+          className="w-full max-w-[65%] h-auto rounded-xl"
         />
       </div>
 
