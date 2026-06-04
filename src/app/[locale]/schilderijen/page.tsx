@@ -23,7 +23,7 @@ export default async function PaintingsPage({ params }: { params: Promise<{ loca
         <GalleryGrid
           paintings={paintings}
           locale={locale as Locale}
-          galleryLabels={{ year: g('year'), medium: g('medium'), dimensions: g('dimensions'), cm: g('cm') }}
+          galleryLabels={{ year: g('year'), medium: g('medium'), dimensions: g('dimensions'), cm: g('cm'), forSale: g('forSale') }}
         />
       ) : (
         <p className="text-stone-500">{t('noWork')}</p>

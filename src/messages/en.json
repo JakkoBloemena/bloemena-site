@@ -48,7 +48,8 @@
     "year": "Year",
     "medium": "Medium",
     "dimensions": "Dimensions",
-    "cm": "cm"
+    "cm": "cm",
+    "forSale": "Available"
   },
   "footer": {
     "rights": "All rights reserved."

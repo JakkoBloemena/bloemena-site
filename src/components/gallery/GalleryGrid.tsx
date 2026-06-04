@@ -9,7 +9,7 @@ import type { Locale } from '@/types'
 interface Props {
   paintings: Painting[]
   locale: Locale
-  galleryLabels: { year: string; medium: string; dimensions: string; cm: string }
+  galleryLabels: { year: string; medium: string; dimensions: string; cm: string; forSale: string }
 }
 
 export default function GalleryGrid({ paintings, locale, galleryLabels }: Props) {
@@ -105,6 +105,15 @@ export default function GalleryGrid({ paintings, locale, galleryLabels }: Props)
                   </div>
                 )}
               </dl>
+              <div className="mt-4 pt-4 border-t border-forest-700">
+                {current.for_sale && current.price_eur ? (
+                  <p className="text-ochre-400 font-semibold text-base">
+                    {galleryLabels.forSale} — € {current.price_eur.toLocaleString('nl-NL')}
+                  </p>
+                ) : current.collection_info ? (
+                  <p className="text-forest-300 text-sm italic">{current.collection_info}</p>
+                ) : null}
+              </div>
             </div>
           </div>
         </div>

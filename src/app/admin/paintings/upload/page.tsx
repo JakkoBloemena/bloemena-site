@@ -22,6 +22,9 @@ export default function UploadPaintingPage() {
     year: '', width_cm: '', height_cm: '',
     medium: '',
     featured: false,
+    for_sale: false,
+    price_eur: '',
+    collection_info: '',
   })
 
   function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
@@ -62,6 +65,9 @@ export default function UploadPaintingPage() {
       medium_nl: form.medium || null,
       medium_en: form.medium || null,
       featured: form.featured,
+      for_sale: form.for_sale,
+      price_eur: form.for_sale && form.price_eur ? parseFloat(form.price_eur) : null,
+      collection_info: !form.for_sale && form.collection_info ? form.collection_info : null,
       image_url: publicUrl,
       sort_order: 999,
     })
@@ -175,13 +181,44 @@ export default function UploadPaintingPage() {
             className="w-full border border-stone-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-amber-500" />
         </div>
 
+        {/* For sale */}
+        <div className="border border-stone-200 rounded-lg p-4 space-y-3">
+          <div className="flex gap-3">
+            <button type="button" onClick={() => set('for_sale', true)}
+              className={`flex-1 py-2 rounded border text-sm font-medium transition-colors ${form.for_sale ? 'bg-amber-600 text-white border-amber-600' : 'border-stone-300 text-stone-600 hover:border-amber-400'}`}>
+              Te koop
+            </button>
+            <button type="button" onClick={() => set('for_sale', false)}
+              className={`flex-1 py-2 rounded border text-sm font-medium transition-colors ${!form.for_sale ? 'bg-forest-700 text-white border-forest-700' : 'border-stone-300 text-stone-600 hover:border-stone-400'}`}>
+              Niet te koop
+            </button>
+          </div>
+          {form.for_sale ? (
+            <div>
+              <label className="block text-sm font-medium text-stone-700 mb-1">Prijs (EUR)</label>
+              <div className="relative">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-stone-400 text-sm">€</span>
+                <input type="number" value={form.price_eur} onChange={(e) => set('price_eur', e.target.value)}
+                  placeholder="1200" className="w-full border border-stone-300 rounded pl-7 pr-3 py-2 text-sm focus:outline-none focus:border-amber-500" />
+              </div>
+            </div>
+          ) : (
+            <div>
+              <label className="block text-sm font-medium text-stone-700 mb-1">Locatie / collectie</label>
+              <input value={form.collection_info} onChange={(e) => set('collection_info', e.target.value)}
+                placeholder="bijv. Particuliere collectie Rabobank Utrecht"
+                className="w-full border border-stone-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-amber-500" />
+            </div>
+          )}
+        </div>
+
         {/* Featured */}
         <label className="flex items-center gap-3 cursor-pointer">
           <input type="checkbox" checked={form.featured} onChange={(e) => set('featured', e.target.checked)}
             className="w-4 h-4 accent-amber-600" />
           <div>
             <span className="text-sm font-medium text-stone-700">Uitgelicht op homepage</span>
-            <p className="text-xs text-stone-400">Dit werk verschijnt in de galerij op de voorpagina</p>
+            <p className="text-xs text-stone-400">Dit werk verschijnt in de slideshow op de voorpagina</p>
           </div>
         </label>
 

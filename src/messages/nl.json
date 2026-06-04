@@ -48,7 +48,8 @@
     "year": "Jaar",
     "medium": "Techniek",
     "dimensions": "Afmeting",
-    "cm": "cm"
+    "cm": "cm",
+    "forSale": "Te koop"
   },
   "footer": {
     "rights": "Alle rechten voorbehouden."

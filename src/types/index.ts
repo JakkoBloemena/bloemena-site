@@ -15,6 +15,9 @@ export interface Painting {
   medium_en: string | null
   featured: boolean
   sort_order: number
+  for_sale: boolean
+  price_eur: number | null
+  collection_info: string | null
   created_at: string
 }
 
