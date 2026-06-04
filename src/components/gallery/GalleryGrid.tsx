@@ -107,15 +107,20 @@ export default function GalleryGrid({ paintings, locale, galleryLabels }: Props)
 
           {/* Image — fills available space, centered */}
           <div
-            className="flex-1 flex items-center justify-center px-4 md:px-16 pt-12 pb-4 min-h-0"
+            className="flex-1 min-h-0 overflow-hidden flex items-center justify-center p-4 md:p-14 pt-14"
             onClick={(e) => e.stopPropagation()}
           >
             <img
               key={current.id}
               src={current.image_url}
               alt={t(current)}
-              className="max-w-full max-h-full object-contain select-none"
-              style={{ maxHeight: 'calc(100vh - 200px)' }}
+              className="object-contain select-none block"
+              style={{
+                maxHeight: 'calc(100vh - 220px)',
+                maxWidth: 'calc(100vw - 2rem)',
+                width: 'auto',
+                height: 'auto',
+              }}
               draggable={false}
             />
           </div>
