@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
-import { ImageIcon, FileText, BookOpen, LogOut, ChevronRight, Star } from 'lucide-react'
+import { ImageIcon, FileText, BookOpen, LogOut, ChevronRight, Star, Camera } from 'lucide-react'
 
 const contentPages = [
   { slug: 'over-mij',          label: 'Over mij' },
@@ -19,10 +19,11 @@ export default async function AdminPage() {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/admin/login')
 
-  const [{ count: paintingCount }, { count: postCount }, { count: featuredCount }] = await Promise.all([
+  const [{ count: paintingCount }, { count: postCount }, { count: featuredCount }, { count: photoCount }] = await Promise.all([
     supabase.from('paintings').select('*', { count: 'exact', head: true }),
     supabase.from('posts').select('*', { count: 'exact', head: true }),
     supabase.from('paintings').select('*', { count: 'exact', head: true }).eq('featured', true),
+    supabase.from('op_zn_plek_photos').select('*', { count: 'exact', head: true }),
   ])
 
   return (
@@ -65,6 +66,17 @@ export default async function AdminPage() {
               <div className="flex-1 min-w-0">
                 <p className="font-semibold text-stone-900">Nieuws</p>
                 <p className="text-sm text-stone-400">{postCount ?? 0} berichten</p>
+              </div>
+              <ChevronRight size={18} className="text-stone-300 shrink-0" />
+            </Link>
+
+            <Link href="/admin/op-zn-plek" className="flex items-center gap-4 bg-white rounded-xl p-4 shadow-sm active:bg-stone-50 transition-colors">
+              <div className="w-12 h-12 bg-amber-50 rounded-xl flex items-center justify-center shrink-0">
+                <Camera size={22} className="text-amber-600" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="font-semibold text-stone-900">Op z&apos;n plek</p>
+                <p className="text-sm text-stone-400">{photoCount ?? 0} foto&apos;s</p>
               </div>
               <ChevronRight size={18} className="text-stone-300 shrink-0" />
             </Link>

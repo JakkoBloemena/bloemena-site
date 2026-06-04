@@ -66,3 +66,16 @@ create policy "admin all pages" on pages for all using (auth.role() = 'authentic
 create policy "public read artwork" on storage.objects for select using (bucket_id = 'artwork');
 create policy "admin write artwork" on storage.objects for insert with check (bucket_id = 'artwork' and auth.role() = 'authenticated');
 create policy "admin delete artwork" on storage.objects for delete using (bucket_id = 'artwork' and auth.role() = 'authenticated');
+
+-- Op z'n plek: photos of paintings in the wild (homes, galleries, exhibitions)
+create table if not exists op_zn_plek_photos (
+  id uuid primary key default gen_random_uuid(),
+  image_url text not null,
+  caption text,
+  sort_order int not null default 999,
+  created_at timestamptz not null default now()
+);
+
+alter table op_zn_plek_photos enable row level security;
+create policy "public read op_zn_plek_photos" on op_zn_plek_photos for select using (true);
+create policy "admin all op_zn_plek_photos" on op_zn_plek_photos for all using (auth.role() = 'authenticated');
