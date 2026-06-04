@@ -1,7 +1,8 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import { createClient } from '@/lib/supabase/server'
 
-const WHATSAPP_NL = 'https://wa.me/31638036823?text=Hallo%2C%20ik%20heb%20een%20vraag%20over%20de%20schilderlessen.'
+const WHATSAPP_NL = 'https://wa.me/31638036823?text=Hallo%2C%20ik%20wil%20me%20graag%20aanmelden%20voor%20een%20proefles'
 const WHATSAPP_EN = 'https://wa.me/31638036823?text=Hello%2C%20I%20have%20a%20question%20about%20the%20painting%20lessons.'
 const MAPS_EMBED = 'https://maps.google.com/maps?q=Jacob+Catsstraat+2,+7576+BS+Oldenzaal&output=embed&z=16'
 const MAPS_DIRECTIONS = 'https://www.google.com/maps/dir/?api=1&destination=Jacob+Catsstraat+2%2C+7576+BS+Oldenzaal'
@@ -70,19 +71,9 @@ export default async function LessonsPage({ params }: { params: Promise<{ locale
         />
       )}
 
-      {/* Contact CTA */}
-      <div className="bg-forest-50 border border-forest-100 rounded-xl p-6 flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-12">
-        <div className="flex-1">
-          <p className="font-semibold text-forest-900 mb-0.5">
-            {isNl ? 'Vrijblijvend kennismaken?' : 'Want to know more?'}
-          </p>
-          <p className="text-sm text-ink-muted">
-            {isNl
-              ? 'Stel gerust een vraag via WhatsApp of e-mail — de eerste les is altijd gratis.'
-              : 'Feel free to ask a question via WhatsApp or email — the first lesson is always free.'}
-          </p>
-        </div>
-        <div className="flex flex-col sm:flex-row gap-2 shrink-0 w-full sm:w-auto">
+      {/* Contact buttons */}
+      <div className="bg-forest-50 border border-forest-100 rounded-xl p-6 mb-12">
+        <div className="flex flex-col sm:flex-row gap-2">
           <a
             href={isNl ? WHATSAPP_NL : WHATSAPP_EN}
             target="_blank"
@@ -148,6 +139,16 @@ export default async function LessonsPage({ params }: { params: Promise<{ locale
           {isNl ? 'Route starten' : 'Get directions'}
         </a>
       </section>
+
+      <div className="mt-12">
+        <Image
+          src="/itsme.jpg"
+          alt="Wiebe Bloemena"
+          width={1200}
+          height={800}
+          className="w-full h-auto rounded-xl"
+        />
+      </div>
     </div>
   )
 }

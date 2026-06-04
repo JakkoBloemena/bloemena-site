@@ -34,7 +34,7 @@ export default function PageEditor({ slug, title, initialNl, initialEn }: Props)
     if (err) { setError(err.message); setSaving(false); return }
     setSaved(true)
     setSaving(false)
-    setTimeout(() => setSaved(false), 2000)
+    setTimeout(() => setSaved(false), 2500)
     router.refresh()
   }
 
@@ -75,9 +75,9 @@ export default function PageEditor({ slug, title, initialNl, initialEn }: Props)
 
         {error && <p className="text-red-600 text-sm bg-red-50 border border-red-200 rounded-lg px-3 py-2">{error}</p>}
 
-        <button type="submit" disabled={saving}
-          className="w-full bg-stone-900 text-white py-3.5 rounded-xl font-medium text-sm hover:bg-amber-700 transition-colors disabled:opacity-50">
-          {saving ? 'Opslaan…' : 'Opslaan'}
+        <button type="submit" disabled={saving || saved}
+          className={`w-full py-3.5 rounded-xl font-medium text-sm transition-colors disabled:opacity-50 flex items-center justify-center gap-1.5 ${saved ? 'bg-green-600 text-white' : 'bg-stone-900 text-white hover:bg-amber-700'}`}>
+          {saving ? 'Opslaan…' : saved ? <><Check size={14} /> Opgeslagen</> : 'Opslaan'}
         </button>
       </form>
     </div>

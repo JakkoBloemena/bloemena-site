@@ -149,9 +149,14 @@ export default function GalleryGrid({ paintings, locale, galleryLabels }: Props)
 
             {/* Price or collection */}
             {current.for_sale && current.price_eur ? (
-              <p className="text-ochre-400 font-semibold text-sm">
+              <a
+                href={`https://wa.me/31638036823?text=${encodeURIComponent(`Ik heb interesse in ${current.title_nl}`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-ochre-400 font-semibold text-sm hover:underline"
+              >
                 {galleryLabels.forSale} — € {Number(current.price_eur).toLocaleString('nl-NL')}
-              </p>
+              </a>
             ) : current.collection_info ? (
               <p className="text-forest-200 opacity-60 text-xs italic">{current.collection_info}</p>
             ) : null}

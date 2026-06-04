@@ -42,8 +42,7 @@ export default function HeroCarousel({ paintings, locale }: Props) {
 
   return (
     <section
-      className="relative bg-forest-950 overflow-hidden"
-      style={{ height: 'min(90vh, 680px)' }}
+      className="relative bg-forest-950 overflow-hidden h-[min(55vh,500px)] md:h-[min(90vh,680px)]"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onTouchStart={onTouchStart}
