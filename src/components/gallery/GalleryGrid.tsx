@@ -61,7 +61,7 @@ export default function GalleryGrid({ paintings, locale, galleryLabels }: Props)
               alt={t(p)}
               fill
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-              className="object-cover transition-transform duration-500 group-hover:scale-105"
+              className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-forest-950/0 group-hover:bg-forest-950/40 transition-colors flex items-end">
               <p className="translate-y-full group-hover:translate-y-0 transition-transform text-canvas text-xs font-medium px-3 py-2 w-full truncate">
