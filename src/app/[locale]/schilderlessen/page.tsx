@@ -54,6 +54,15 @@ export default async function LessonsPage({ params }: { params: Promise<{ locale
             WhatsApp
           </a>
           <a
+            href="tel:+31638036823"
+            className="flex items-center justify-center gap-2 border border-forest-200 text-forest-900 font-medium text-sm px-5 py-2.5 rounded-lg hover:border-ochre-500 hover:text-ochre-600 transition-colors"
+          >
+            <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" xmlns="http://www.w3.org/2000/svg">
+              <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .9h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 15.92v1z"/>
+            </svg>
+            {isNl ? 'Bellen' : 'Call'}
+          </a>
+          <a
             href="mailto:wbloemena@hotmail.com"
             className="flex items-center justify-center gap-2 border border-forest-200 text-forest-900 font-medium text-sm px-5 py-2.5 rounded-lg hover:border-ochre-500 hover:text-ochre-600 transition-colors"
           >
