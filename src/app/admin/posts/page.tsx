@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
-import { Plus, ArrowLeft } from 'lucide-react'
+import { Plus, ArrowLeft, ChevronRight } from 'lucide-react'
 import DeletePostButton from './DeletePostButton'
 
 export default async function AdminPostsPage() {
@@ -15,48 +15,39 @@ export default async function AdminPostsPage() {
     .order('published_at', { ascending: false })
 
   return (
-    <div className="min-h-screen">
-      <header className="bg-white border-b border-stone-200 px-6 py-4 flex items-center gap-4">
-        <Link href="/admin" className="text-stone-400 hover:text-stone-700"><ArrowLeft size={18} /></Link>
-        <h1 className="font-bold text-stone-900 flex-1">Nieuws beheren</h1>
-        <Link href="/admin/posts/new" className="flex items-center gap-1.5 bg-amber-600 text-white text-sm px-4 py-2 rounded hover:bg-amber-500 transition-colors">
-          <Plus size={16} /> Bericht toevoegen
+    <div className="min-h-screen pb-10">
+      <header className="bg-white border-b border-stone-200 px-4 py-3.5 flex items-center gap-3 sticky top-0 z-10">
+        <Link href="/admin" className="p-1 -ml-1 text-stone-400"><ArrowLeft size={20} /></Link>
+        <h1 className="font-bold text-stone-900 flex-1">Nieuws</h1>
+        <Link href="/admin/posts/new" className="flex items-center gap-1.5 bg-amber-600 text-white text-sm font-medium px-3 py-2 rounded-lg">
+          <Plus size={16} /> Nieuw bericht
         </Link>
       </header>
 
-      <div className="max-w-3xl mx-auto px-6 py-8">
+      <div className="max-w-lg mx-auto px-4 pt-4">
         {posts && posts.length > 0 ? (
-          <div className="bg-white rounded-lg border border-stone-200 overflow-hidden">
-            <table className="w-full text-sm">
-              <thead className="bg-stone-50 border-b border-stone-200">
-                <tr>
-                  <th className="text-left px-4 py-3 font-medium text-stone-600">Titel</th>
-                  <th className="text-left px-4 py-3 font-medium text-stone-600 hidden sm:table-cell">Datum</th>
-                  <th className="px-4 py-3 w-24"></th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-stone-100">
-                {posts.map((p) => (
-                  <tr key={p.id} className="hover:bg-stone-50">
-                    <td className="px-4 py-3 font-medium text-stone-900">{p.title_nl}</td>
-                    <td className="px-4 py-3 text-stone-400 text-xs hidden sm:table-cell">
-                      {new Date(p.published_at).toLocaleDateString('nl-NL', { year: 'numeric', month: 'short', day: 'numeric' })}
-                    </td>
-                    <td className="px-4 py-3">
-                      <div className="flex items-center gap-2 justify-end">
-                        <Link href={`/admin/posts/${p.id}`} className="text-xs text-amber-700 hover:underline">Bewerken</Link>
-                        <DeletePostButton id={p.id} />
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="bg-white rounded-xl shadow-sm overflow-hidden divide-y divide-stone-100">
+            {posts.map((p) => (
+              <div key={p.id} className="flex items-center gap-3 px-4 py-3.5">
+                <div className="flex-1 min-w-0">
+                  <p className="font-medium text-stone-900 text-sm truncate">{p.title_nl}</p>
+                  <p className="text-xs text-stone-400 mt-0.5">
+                    {new Date(p.published_at).toLocaleDateString('nl-NL', { day: 'numeric', month: 'short', year: 'numeric' })}
+                  </p>
+                </div>
+                <div className="flex items-center gap-2 shrink-0">
+                  <Link href={`/admin/posts/${p.id}`} className="text-xs text-amber-700 font-medium px-2 py-1.5 rounded bg-amber-50">
+                    Bewerk
+                  </Link>
+                  <DeletePostButton id={p.id} />
+                </div>
+              </div>
+            ))}
           </div>
         ) : (
           <div className="text-center py-16 text-stone-400">
             <p className="mb-4">Nog geen berichten.</p>
-            <Link href="/admin/posts/new" className="text-amber-700 hover:underline text-sm">Schrijf uw eerste bericht →</Link>
+            <Link href="/admin/posts/new" className="text-amber-700 text-sm font-medium">Schrijf uw eerste bericht →</Link>
           </div>
         )}
       </div>

@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
-import { ImageIcon, FileText, BookOpen, LogOut } from 'lucide-react'
+import { ImageIcon, FileText, BookOpen, LogOut, ChevronRight, Star } from 'lucide-react'
 
 const contentPages = [
   { slug: 'over-mij',          label: 'Over mij' },
@@ -19,73 +19,76 @@ export default async function AdminPage() {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/admin/login')
 
-  const [{ count: paintingCount }, { count: postCount }] = await Promise.all([
+  const [{ count: paintingCount }, { count: postCount }, { count: featuredCount }] = await Promise.all([
     supabase.from('paintings').select('*', { count: 'exact', head: true }),
     supabase.from('posts').select('*', { count: 'exact', head: true }),
+    supabase.from('paintings').select('*', { count: 'exact', head: true }).eq('featured', true),
   ])
 
   return (
-    <div className="min-h-screen">
-      <header className="bg-white border-b border-stone-200 px-6 py-4 flex items-center justify-between">
+    <div className="min-h-screen pb-10">
+      {/* Header */}
+      <header className="bg-white border-b border-stone-200 px-4 py-4 flex items-center justify-between sticky top-0 z-10">
         <div>
-          <h1 className="font-bold text-stone-900">Wiebe Bloemena — Beheer</h1>
-          <p className="text-xs text-stone-500 mt-0.5">{user.email}</p>
+          <p className="font-bold text-stone-900 text-base leading-tight">Wiebe Bloemena</p>
+          <p className="text-xs text-stone-400 mt-0.5">{user.email}</p>
         </div>
         <form action="/api/auth/signout" method="POST">
-          <button type="submit" className="flex items-center gap-1.5 text-sm text-stone-500 hover:text-red-600">
-            <LogOut size={15} /> Uitloggen
+          <button type="submit" className="flex items-center gap-1.5 text-sm text-stone-400 hover:text-red-600 py-2 px-1">
+            <LogOut size={16} />
           </button>
         </form>
       </header>
 
-      <div className="max-w-2xl mx-auto px-6 py-12 space-y-8">
-        <p className="text-stone-500">Goedendag! Wat wilt u beheren?</p>
+      <div className="max-w-lg mx-auto px-4 pt-6 space-y-6">
 
-        {/* Werken + Nieuws */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <Link href="/admin/paintings" className="bg-white rounded-lg border border-stone-200 p-6 hover:border-amber-400 hover:shadow-sm transition-all group">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-10 h-10 bg-amber-50 rounded flex items-center justify-center group-hover:bg-amber-100 transition-colors">
-                <ImageIcon size={20} className="text-amber-700" />
+        {/* Main actions */}
+        <section>
+          <p className="text-xs font-semibold text-stone-400 uppercase tracking-widest mb-3">Beheer</p>
+          <div className="space-y-2">
+
+            <Link href="/admin/paintings" className="flex items-center gap-4 bg-white rounded-xl p-4 shadow-sm active:bg-stone-50 transition-colors">
+              <div className="w-12 h-12 bg-amber-50 rounded-xl flex items-center justify-center shrink-0">
+                <ImageIcon size={22} className="text-amber-600" />
               </div>
-              <h2 className="font-semibold text-stone-900">Werken</h2>
-            </div>
-            <p className="text-sm text-stone-500">{paintingCount ?? 0} schilderijen en tekeningen</p>
-            <p className="text-xs text-amber-700 mt-3 font-medium">Beheren →</p>
-          </Link>
-
-          <Link href="/admin/posts" className="bg-white rounded-lg border border-stone-200 p-6 hover:border-amber-400 hover:shadow-sm transition-all group">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-10 h-10 bg-amber-50 rounded flex items-center justify-center group-hover:bg-amber-100 transition-colors">
-                <FileText size={20} className="text-amber-700" />
+              <div className="flex-1 min-w-0">
+                <p className="font-semibold text-stone-900">Werken</p>
+                <p className="text-sm text-stone-400">{paintingCount ?? 0} schilderijen en tekeningen · <span className="text-amber-600">{featuredCount ?? 0} uitgelicht</span></p>
               </div>
-              <h2 className="font-semibold text-stone-900">Nieuws</h2>
-            </div>
-            <p className="text-sm text-stone-500">{postCount ?? 0} berichten</p>
-            <p className="text-xs text-amber-700 mt-3 font-medium">Beheren →</p>
-          </Link>
-        </div>
+              <ChevronRight size={18} className="text-stone-300 shrink-0" />
+            </Link>
 
-        {/* Pagina's */}
-        <div>
-          <h2 className="text-xs font-semibold text-stone-400 uppercase tracking-widest mb-3">Pagina&apos;s bewerken</h2>
-          <div className="bg-white rounded-lg border border-stone-200 divide-y divide-stone-100">
+            <Link href="/admin/posts" className="flex items-center gap-4 bg-white rounded-xl p-4 shadow-sm active:bg-stone-50 transition-colors">
+              <div className="w-12 h-12 bg-amber-50 rounded-xl flex items-center justify-center shrink-0">
+                <FileText size={22} className="text-amber-600" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="font-semibold text-stone-900">Nieuws</p>
+                <p className="text-sm text-stone-400">{postCount ?? 0} berichten</p>
+              </div>
+              <ChevronRight size={18} className="text-stone-300 shrink-0" />
+            </Link>
+
+          </div>
+        </section>
+
+        {/* Pages */}
+        <section>
+          <p className="text-xs font-semibold text-stone-400 uppercase tracking-widest mb-3">Pagina&apos;s bewerken</p>
+          <div className="bg-white rounded-xl shadow-sm overflow-hidden divide-y divide-stone-100">
             {contentPages.map((p) => (
-              <Link key={p.slug} href={`/admin/pages/${p.slug}`} className="flex items-center gap-3 px-4 py-3 hover:bg-stone-50 transition-colors group">
-                <BookOpen size={15} className="text-stone-400 group-hover:text-amber-600 shrink-0" />
+              <Link key={p.slug} href={`/admin/pages/${p.slug}`} className="flex items-center gap-3 px-4 py-3.5 active:bg-stone-50 transition-colors">
+                <BookOpen size={16} className="text-stone-400 shrink-0" />
                 <span className="text-sm text-stone-700 flex-1">{p.label}</span>
-                <span className="text-xs text-amber-700 opacity-0 group-hover:opacity-100 transition-opacity">Bewerken →</span>
+                <ChevronRight size={16} className="text-stone-300 shrink-0" />
               </Link>
             ))}
           </div>
-        </div>
+        </section>
 
-        <div className="pt-4 border-t border-stone-200">
-          <p className="text-xs text-stone-400">
-            Publieke website:{' '}
-            <Link href="/" className="text-amber-700 hover:underline" target="_blank">bloemena.com</Link>
-          </p>
-        </div>
+        <p className="text-xs text-stone-300 text-center">
+          <Link href="/" className="hover:text-stone-500" target="_blank">Bekijk de website →</Link>
+        </p>
       </div>
     </div>
   )

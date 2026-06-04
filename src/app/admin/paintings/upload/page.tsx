@@ -71,7 +71,6 @@ export default function UploadPaintingPage() {
       price_eur: form.for_sale && form.price_eur ? parseFloat(form.price_eur) : null,
       collection_info: !form.for_sale && form.collection_info ? form.collection_info : null,
       image_url: publicUrl,
-      sort_order: 999,
     })
 
     if (dbErr) { setError('Opslaan mislukt: ' + dbErr.message); setSaving(false); return }
