@@ -3,8 +3,38 @@ import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
 import { createClient } from '@/lib/supabase/server'
+import type { Metadata } from 'next'
 
-export default async function PostPage({ params }: { params: Promise<{ locale: string; id: string }> }) {
+type Params = { locale: string; id: string }
+
+export async function generateMetadata(
+  { params }: { params: Promise<Params> }
+): Promise<Metadata> {
+  const { locale, id } = await params
+  const supabase = await createClient()
+  const { data: post } = await supabase.from('posts').select('*').eq('id', id).single()
+  if (!post) return {}
+
+  const title = locale === 'nl' ? post.title_nl : post.title_en
+  const content = locale === 'nl' ? post.content_nl : post.content_en
+  const description = content
+    ?.replace(/<[^>]+>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, 160)
+
+  return {
+    title: `${title} | Wiebe Bloemena`,
+    description,
+    openGraph: {
+      title: `${title} | Wiebe Bloemena`,
+      description,
+      ...(post.image_url ? { images: [{ url: post.image_url }] } : {}),
+    },
+  }
+}
+
+export default async function PostPage({ params }: { params: Promise<Params> }) {
   const { locale, id } = await params
   const supabase = await createClient()
 

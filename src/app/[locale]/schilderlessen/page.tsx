@@ -1,7 +1,43 @@
+import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 
 const WHATSAPP_NL = 'https://wa.me/31638036823?text=Hallo%2C%20ik%20heb%20een%20vraag%20over%20de%20schilderlessen.'
 const WHATSAPP_EN = 'https://wa.me/31638036823?text=Hello%2C%20I%20have%20a%20question%20about%20the%20painting%20lessons.'
+const MAPS_EMBED = 'https://maps.google.com/maps?q=Jacob+Catsstraat+2,+7576+BS+Oldenzaal&output=embed&z=16'
+const MAPS_DIRECTIONS = 'https://www.google.com/maps/dir/?api=1&destination=Jacob+Catsstraat+2%2C+7576+BS+Oldenzaal'
+
+export async function generateMetadata(
+  { params }: { params: Promise<{ locale: string }> }
+): Promise<Metadata> {
+  const { locale } = await params
+  const isNl = locale === 'nl'
+  return {
+    title: isNl
+      ? 'Schilderlessen in Oldenzaal, Twente | Wiebe Bloemena'
+      : 'Painting lessons in Oldenzaal, Twente | Wiebe Bloemena',
+    description: isNl
+      ? 'Schilderlessen en tekenlessen in Oldenzaal (Twente). Kleine groepen van maximaal 8 personen, gratis proefles. Dinsdag, woensdag, vrijdag en donderdagavond. Bel: 06-38 03 68 23.'
+      : 'Painting and drawing lessons in Oldenzaal, Twente. Small groups, free trial lesson. Tuesday, Wednesday, Friday and Thursday evenings.',
+    keywords: [
+      'schilderlessen Oldenzaal',
+      'schilderlessen Twente',
+      'tekenlessen Oldenzaal',
+      'schildercursus Twente',
+      'schildercursus Oldenzaal',
+      'schilderen leren Twente',
+      'tekenles Twente',
+      'atelier Oldenzaal',
+    ],
+    openGraph: {
+      title: isNl
+        ? 'Schilderlessen in Oldenzaal, Twente | Wiebe Bloemena'
+        : 'Painting lessons in Oldenzaal, Twente | Wiebe Bloemena',
+      description: isNl
+        ? 'Schilderlessen en tekenlessen in Oldenzaal (Twente). Kleine groepen, gratis proefles.'
+        : 'Painting and drawing lessons in Oldenzaal, Twente. Small groups, free trial lesson.',
+    },
+  }
+}
 
 export default async function LessonsPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
@@ -13,7 +49,12 @@ export default async function LessonsPage({ params }: { params: Promise<{ locale
     .eq('slug', 'schilderlessen')
     .single()
 
-  const content = page ? (locale === 'nl' ? page.content_nl : page.content_en) : null
+  const rawContent = page ? (locale === 'nl' ? page.content_nl : page.content_en) : null
+  // Strip the "Waar?" section from CMS content — it's now rendered below with the map
+  const content = rawContent
+    ?.replace(/<h2[^>]*>\s*Waar\?\s*<\/h2>\s*(<p>[^<]*<\/p>)?/gi, '')
+    .trim() ?? null
+
   const isNl = locale === 'nl'
 
   return (
@@ -29,8 +70,8 @@ export default async function LessonsPage({ params }: { params: Promise<{ locale
         />
       )}
 
-      {/* WhatsApp CTA */}
-      <div className="bg-forest-50 border border-forest-100 rounded-xl p-6 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+      {/* Contact CTA */}
+      <div className="bg-forest-50 border border-forest-100 rounded-xl p-6 flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-12">
         <div className="flex-1">
           <p className="font-semibold text-forest-900 mb-0.5">
             {isNl ? 'Vrijblijvend kennismaken?' : 'Want to know more?'}
@@ -70,6 +111,43 @@ export default async function LessonsPage({ params }: { params: Promise<{ locale
           </a>
         </div>
       </div>
+
+      {/* Location — moved to bottom for UX, hardcoded here so CMS stays clean */}
+      <section aria-label={isNl ? 'Locatie' : 'Location'}>
+        <h2 className="font-playfair text-2xl font-bold text-forest-900 mb-3">
+          {isNl ? 'Waar?' : 'Where?'}
+        </h2>
+        <address className="not-italic text-ink-muted mb-5 leading-relaxed">
+          <span className="block font-medium text-forest-900">Atelier Wiebe Bloemena</span>
+          <span className="block">Jacob Catsstraat 2</span>
+          <span className="block">7576 BS Oldenzaal</span>
+          <span className="block">Twente</span>
+        </address>
+
+        <div className="rounded-xl overflow-hidden border border-forest-100 mb-4">
+          <iframe
+            src={MAPS_EMBED}
+            width="100%"
+            height="300"
+            style={{ border: 0 }}
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            title={isNl ? 'Atelier Wiebe Bloemena, Oldenzaal' : 'Studio Wiebe Bloemena, Oldenzaal'}
+          />
+        </div>
+
+        <a
+          href={MAPS_DIRECTIONS}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 bg-forest-900 text-white font-medium text-sm px-5 py-2.5 rounded-lg hover:bg-forest-800 transition-colors"
+        >
+          <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="3 11 22 2 13 21 11 13 3 11"/>
+          </svg>
+          {isNl ? 'Route starten' : 'Get directions'}
+        </a>
+      </section>
     </div>
   )
 }
