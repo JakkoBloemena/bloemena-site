@@ -29,15 +29,15 @@ export default async function OpZnPlekPage({ params }: { params: Promise<{ local
       )}
 
       {photos && photos.length > 0 && (
-        <div className="columns-2 md:columns-3 gap-3 space-y-3">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
           {photos.map((photo) => (
-            <div key={photo.id} className="break-inside-avoid">
+            <div key={photo.id} className="relative aspect-[4/3] overflow-hidden rounded-sm bg-stone-100">
               <Image
                 src={photo.image_url}
                 alt=""
-                width={600}
-                height={400}
-                className="w-full h-auto rounded-sm"
+                fill
+                sizes="(max-width: 768px) 50vw, 33vw"
+                className="object-cover"
               />
             </div>
           ))}
