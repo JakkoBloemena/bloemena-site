@@ -6,12 +6,11 @@ import { useTranslations } from 'next-intl'
 import { useState, useRef } from 'react'
 import { Menu, X, ChevronDown } from 'lucide-react'
 
-const mainNavKeys = ['paintings', 'drawings', 'news', 'lessons', 'contact'] as const
+const mainNavKeys = ['paintings', 'drawings', 'lessons', 'contact'] as const
 
 const navHrefs: Record<string, string> = {
   paintings:  '/schilderijen',
   drawings:   '/tekeningen',
-  news:       '/nieuws',
   lessons:    '/schilderlessen',
   contact:    '/contact',
 }
@@ -56,6 +55,18 @@ export default function Nav({ locale }: { locale: string }) {
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-6 text-xs font-medium tracking-widest">
 
+          {/* Schilderijen, Tekeningen */}
+          {(['paintings', 'drawings'] as const).map((key) => {
+            const href = localePath(locale, navHrefs[key])
+            const active = pathname === href || pathname.startsWith(href + '/')
+            return (
+              <Link key={key} href={href}
+                className={`transition-colors pb-0.5 uppercase ${active ? 'text-ochre-500 border-b border-ochre-500' : 'text-ink-muted hover:text-forest-900'}`}>
+                {t(key)}
+              </Link>
+            )
+          })}
+
           {/* OVER MIJ with dropdown */}
           <div ref={aboutRef} className="relative group">
             <Link
@@ -66,16 +77,11 @@ export default function Nav({ locale }: { locale: string }) {
             >
               OVER MIJ <ChevronDown size={12} className="opacity-60 group-hover:opacity-100 transition-opacity" />
             </Link>
-
-            {/* Dropdown */}
             <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 z-50">
               <div className="bg-canvas border border-forest-100 shadow-lg rounded-sm min-w-[220px] py-1">
                 {aboutSubmenu.map((item) => (
-                  <Link
-                    key={item.key}
-                    href={localePath(locale, item.href)}
-                    className="block px-4 py-2.5 text-xs tracking-widest text-ink-muted hover:text-forest-900 hover:bg-forest-50 transition-colors"
-                  >
+                  <Link key={item.key} href={localePath(locale, item.href)}
+                    className="block px-4 py-2.5 text-xs tracking-widest text-ink-muted hover:text-forest-900 hover:bg-forest-50 transition-colors">
                     {item.label}
                   </Link>
                 ))}
@@ -83,17 +89,13 @@ export default function Nav({ locale }: { locale: string }) {
             </div>
           </div>
 
-          {mainNavKeys.map((key) => {
+          {/* Schilderlessen, Contact */}
+          {(['lessons', 'contact'] as const).map((key) => {
             const href = localePath(locale, navHrefs[key])
             const active = pathname === href || pathname.startsWith(href + '/')
             return (
-              <Link
-                key={key}
-                href={href}
-                className={`transition-colors pb-0.5 uppercase ${
-                  active ? 'text-ochre-500 border-b border-ochre-500' : 'text-ink-muted hover:text-forest-900'
-                }`}
-              >
+              <Link key={key} href={href}
+                className={`transition-colors pb-0.5 uppercase ${active ? 'text-ochre-500 border-b border-ochre-500' : 'text-ink-muted hover:text-forest-900'}`}>
                 {t(key)}
               </Link>
             )
@@ -117,45 +119,45 @@ export default function Nav({ locale }: { locale: string }) {
       {/* Mobile menu */}
       {mobileOpen && (
         <div className="md:hidden border-t border-forest-100 bg-canvas">
+          {/* Schilderijen, Tekeningen */}
+          {(['paintings', 'drawings'] as const).map((key) => {
+            const href = localePath(locale, navHrefs[key])
+            const active = pathname === href || pathname.startsWith(href + '/')
+            return (
+              <Link key={key} href={href} onClick={() => setMobileOpen(false)}
+                className={`block px-5 py-3.5 text-xs uppercase tracking-widest font-medium border-b border-forest-50 ${active ? 'text-ochre-500' : 'text-ink-muted'}`}>
+                {t(key)}
+              </Link>
+            )
+          })}
+
           {/* Over mij + submenu */}
-          <button
-            onClick={() => setMobileAboutOpen(!mobileAboutOpen)}
-            className={`flex items-center justify-between w-full px-5 py-3.5 text-xs uppercase tracking-widest font-medium border-b border-forest-50 ${isAboutActive ? 'text-ochre-500' : 'text-ink-muted'}`}
-          >
+          <button onClick={() => setMobileAboutOpen(!mobileAboutOpen)}
+            className={`flex items-center justify-between w-full px-5 py-3.5 text-xs uppercase tracking-widest font-medium border-b border-forest-50 ${isAboutActive ? 'text-ochre-500' : 'text-ink-muted'}`}>
             OVER MIJ <ChevronDown size={12} className={`transition-transform ${mobileAboutOpen ? 'rotate-180' : ''}`} />
           </button>
           {mobileAboutOpen && (
             <div className="bg-forest-50 border-b border-forest-100">
-              <Link
-                href={localePath(locale, '/over-mij')}
-                onClick={() => setMobileOpen(false)}
-                className="block px-8 py-3 text-xs tracking-widest text-ink-muted hover:text-forest-900"
-              >
+              <Link href={localePath(locale, '/over-mij')} onClick={() => setMobileOpen(false)}
+                className="block px-8 py-3 text-xs tracking-widest text-ink-muted hover:text-forest-900">
                 OVER MIJ
               </Link>
               {aboutSubmenu.map((item) => (
-                <Link
-                  key={item.key}
-                  href={localePath(locale, item.href)}
-                  onClick={() => setMobileOpen(false)}
-                  className="block px-8 py-3 text-xs tracking-widest text-ink-muted hover:text-forest-900 border-t border-forest-100"
-                >
+                <Link key={item.key} href={localePath(locale, item.href)} onClick={() => setMobileOpen(false)}
+                  className="block px-8 py-3 text-xs tracking-widest text-ink-muted hover:text-forest-900 border-t border-forest-100">
                   {item.label}
                 </Link>
               ))}
             </div>
           )}
 
-          {mainNavKeys.map((key) => {
+          {/* Schilderlessen, Contact */}
+          {(['lessons', 'contact'] as const).map((key) => {
             const href = localePath(locale, navHrefs[key])
             const active = pathname === href || pathname.startsWith(href + '/')
             return (
-              <Link
-                key={key}
-                href={href}
-                onClick={() => setMobileOpen(false)}
-                className={`block px-5 py-3.5 text-xs uppercase tracking-widest font-medium border-b border-forest-50 ${active ? 'text-ochre-500' : 'text-ink-muted'}`}
-              >
+              <Link key={key} href={href} onClick={() => setMobileOpen(false)}
+                className={`block px-5 py-3.5 text-xs uppercase tracking-widest font-medium border-b border-forest-50 ${active ? 'text-ochre-500' : 'text-ink-muted'}`}>
                 {t(key)}
               </Link>
             )
