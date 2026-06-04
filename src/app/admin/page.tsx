@@ -84,6 +84,20 @@ export default async function AdminPage() {
           </div>
         </section>
 
+        {/* Articles */}
+        <section>
+          <p className="text-xs font-semibold text-stone-400 uppercase tracking-widest mb-3">Artikelen</p>
+          <div className="bg-white rounded-xl shadow-sm overflow-hidden divide-y divide-stone-100">
+            {(['recensies', 'projecten', 'publicaties', 'tentoonstellingen'] as const).map(cat => (
+              <Link key={cat} href={`/admin/articles/${cat}`} className="flex items-center gap-3 px-4 py-3.5 active:bg-stone-50 transition-colors">
+                <BookOpen size={16} className="text-stone-400 shrink-0" />
+                <span className="text-sm text-stone-700 flex-1 capitalize">{cat}</span>
+                <ChevronRight size={16} className="text-stone-300 shrink-0" />
+              </Link>
+            ))}
+          </div>
+        </section>
+
         {/* Pages */}
         <section>
           <p className="text-xs font-semibold text-stone-400 uppercase tracking-widest mb-3">Pagina&apos;s bewerken</p>

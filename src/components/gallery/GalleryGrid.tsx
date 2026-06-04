@@ -150,7 +150,7 @@ export default function GalleryGrid({ paintings, locale, galleryLabels }: Props)
             {/* Price or collection */}
             {current.for_sale && current.price_eur ? (
               <a
-                href={`https://wa.me/31638036823?text=${encodeURIComponent(`Ik heb interesse in ${current.title_nl}`)}`}
+                href={`https://wa.me/31638036823?text=${encodeURIComponent(`Ik heb interesse in ${current.title_nl}. Met vriendelijke groet, `)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-ochre-400 font-semibold text-sm hover:underline"

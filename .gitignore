@@ -41,3 +41,6 @@ upload-config.env
 *.tsbuildinfo
 next-env.d.ts
 .gstack/
+
+.vercel
+.env*

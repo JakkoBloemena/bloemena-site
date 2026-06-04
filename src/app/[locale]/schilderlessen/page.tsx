@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import Image from 'next/image'
 import { createClient } from '@/lib/supabase/server'
 
 const WHATSAPP_NL = 'https://wa.me/31638036823?text=Hallo%2C%20ik%20wil%20me%20graag%20aanmelden%20voor%20een%20proefles'
@@ -140,15 +139,6 @@ export default async function LessonsPage({ params }: { params: Promise<{ locale
         </a>
       </section>
 
-      <div className="mt-12">
-        <Image
-          src="/itsme.jpg"
-          alt="Wiebe Bloemena"
-          width={1200}
-          height={800}
-          className="w-full h-auto rounded-xl"
-        />
-      </div>
     </div>
   )
 }

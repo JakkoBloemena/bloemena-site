@@ -68,7 +68,7 @@ export default function HeroCarousel({ paintings, locale }: Props) {
       ))}
 
       {/* Title overlay */}
-      <div className="absolute bottom-0 left-0 right-0 px-6 py-5 text-canvas">
+      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-forest-950/85 via-forest-950/40 to-transparent px-6 pt-12 pb-6 text-canvas">
         <p className="font-playfair text-lg md:text-xl font-semibold drop-shadow-lg">{title}</p>
         {painting.year && <p className="text-forest-200 text-xs mt-0.5">{painting.year}</p>}
       </div>
