@@ -1,0 +1,56 @@
+{
+  "nav": {
+    "home": "Home",
+    "paintings": "Paintings",
+    "drawings": "Drawings",
+    "about": "About",
+    "news": "News",
+    "lessons": "Painting lessons",
+    "contact": "Contact"
+  },
+  "home": {
+    "tagline": "Paintings and drawings",
+    "quote": "\"He makes you a participant in his own extraordinary reality; a world that fills you with wonder, one in which you as a viewer love to get lost.\"",
+    "quoteAuthor": "— Jet van der Sluis",
+    "viewPaintings": "View paintings",
+    "viewDrawings": "View drawings",
+    "latestNews": "Latest news",
+    "readMore": "Read more",
+    "allNews": "More news"
+  },
+  "paintings": {
+    "title": "Paintings",
+    "noWork": "No works found."
+  },
+  "drawings": {
+    "title": "Drawings",
+    "noWork": "No works found."
+  },
+  "about": {
+    "title": "About"
+  },
+  "news": {
+    "title": "News"
+  },
+  "lessons": {
+    "title": "Painting lessons"
+  },
+  "contact": {
+    "title": "Contact",
+    "name": "Name",
+    "email": "Email address",
+    "message": "Message",
+    "send": "Send",
+    "success": "Thank you, your message has been sent!",
+    "error": "Something went wrong. Please try again."
+  },
+  "gallery": {
+    "year": "Year",
+    "medium": "Medium",
+    "dimensions": "Dimensions",
+    "cm": "cm"
+  },
+  "footer": {
+    "rights": "All rights reserved."
+  }
+}

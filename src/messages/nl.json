@@ -1,0 +1,56 @@
+{
+  "nav": {
+    "home": "Home",
+    "paintings": "Schilderijen",
+    "drawings": "Tekeningen",
+    "about": "Over mij",
+    "news": "Nieuws",
+    "lessons": "Schilderlessen",
+    "contact": "Contact"
+  },
+  "home": {
+    "tagline": "Schilderijen en tekeningen",
+    "quote": "\"Hij maakt je deelgenoot van zijn eigen niet-alledaagse werkelijkheid; een wereld die verwondert en waarin je als toeschouwer graag verdwaalt.\"",
+    "quoteAuthor": "— Jet van der Sluis",
+    "viewPaintings": "Bekijk schilderijen",
+    "viewDrawings": "Bekijk tekeningen",
+    "latestNews": "Laatste nieuws",
+    "readMore": "Lees meer",
+    "allNews": "Meer nieuws"
+  },
+  "paintings": {
+    "title": "Schilderijen",
+    "noWork": "Geen werken gevonden."
+  },
+  "drawings": {
+    "title": "Tekeningen",
+    "noWork": "Geen werken gevonden."
+  },
+  "about": {
+    "title": "Over mij"
+  },
+  "news": {
+    "title": "Nieuws"
+  },
+  "lessons": {
+    "title": "Schilderlessen"
+  },
+  "contact": {
+    "title": "Contact",
+    "name": "Naam",
+    "email": "E-mailadres",
+    "message": "Bericht",
+    "send": "Verstuur",
+    "success": "Bedankt, uw bericht is verzonden!",
+    "error": "Er ging iets mis. Probeer het opnieuw."
+  },
+  "gallery": {
+    "year": "Jaar",
+    "medium": "Techniek",
+    "dimensions": "Afmeting",
+    "cm": "cm"
+  },
+  "footer": {
+    "rights": "Alle rechten voorbehouden."
+  }
+}
