@@ -3,7 +3,7 @@
 import { useState, useRef } from 'react'
 import Image from 'next/image'
 import { createClient } from '@/lib/supabase/client'
-import { Trash2, Upload, Check, GripVertical } from 'lucide-react'
+import { Trash2, Upload, Check } from 'lucide-react'
 import {
   DndContext,
   closestCenter,
@@ -52,14 +52,20 @@ function SortablePhoto({
       style={style}
       className="flex gap-3 items-center bg-white rounded-xl p-3 shadow-sm"
     >
-      {/* Drag handle */}
+      {/* Drag handle — 5×5 dot grid */}
       <button
         {...attributes}
         {...listeners}
-        className="shrink-0 text-stone-300 hover:text-stone-500 cursor-grab active:cursor-grabbing touch-none"
+        className="shrink-0 text-stone-300 hover:text-stone-500 cursor-grab active:cursor-grabbing touch-none p-2 -ml-1"
         aria-label="Versleep"
       >
-        <GripVertical size={18} />
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+          {[0,1,2,3,4].flatMap(row =>
+            [0,1,2,3,4].map(col => (
+              <circle key={`${row}-${col}`} cx={2 + col * 4} cy={2 + row * 4} r="1.2" />
+            ))
+          )}
+        </svg>
       </button>
 
       {/* Thumbnail */}
