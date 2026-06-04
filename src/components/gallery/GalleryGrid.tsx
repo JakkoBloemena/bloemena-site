@@ -135,7 +135,7 @@ export default function GalleryGrid({ paintings, locale, galleryLabels }: Props)
             </h2>
 
             {/* Metadata row */}
-            <div className="flex flex-wrap justify-center gap-x-4 gap-y-0.5 text-sm text-forest-300 mb-2">
+            <div className="flex flex-wrap justify-center gap-x-4 gap-y-0.5 text-sm text-forest-200 mb-2">
               {current.year && <span>{current.year}</span>}
               {med(current) && <span>{med(current)}</span>}
               {current.width_cm && current.height_cm && (
@@ -144,7 +144,7 @@ export default function GalleryGrid({ paintings, locale, galleryLabels }: Props)
             </div>
 
             {desc(current) && (
-              <p className="text-forest-200/70 text-sm mb-2 max-w-lg mx-auto">{desc(current)}</p>
+              <p className="text-forest-200 opacity-70 text-sm mb-2 max-w-lg mx-auto">{desc(current)}</p>
             )}
 
             {/* Price or collection */}
@@ -153,7 +153,7 @@ export default function GalleryGrid({ paintings, locale, galleryLabels }: Props)
                 {galleryLabels.forSale} — € {Number(current.price_eur).toLocaleString('nl-NL')}
               </p>
             ) : current.collection_info ? (
-              <p className="text-forest-400 text-xs italic">{current.collection_info}</p>
+              <p className="text-forest-200 opacity-60 text-xs italic">{current.collection_info}</p>
             ) : null}
 
             {/* Dot indicators — mobile */}
@@ -163,7 +163,7 @@ export default function GalleryGrid({ paintings, locale, galleryLabels }: Props)
                   <button
                     key={i}
                     onClick={() => setSelected(i)}
-                    className={`h-1.5 rounded-full transition-all ${i === selected ? 'bg-ochre-400 w-4' : 'bg-forest-600 w-1.5'}`}
+                    className={`h-1.5 rounded-full transition-all ${i === selected ? 'bg-ochre-400 w-4' : 'bg-forest-200 opacity-40 w-1.5'}`}
                   />
                 ))}
               </div>
