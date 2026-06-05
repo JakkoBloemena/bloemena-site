@@ -16,6 +16,7 @@ const navHrefs: Record<string, string> = {
 }
 
 const aboutSubmenu = [
+  { key: 'news',        href: '/nieuws',                     label: 'NIEUWS' },
   { key: 'exhibitions', href: '/over-mij/tentoonstellingen', label: 'TENTOONSTELLINGEN' },
   { key: 'publications', href: '/over-mij/publicaties',      label: 'PUBLICATIES' },
   { key: 'projects',    href: '/over-mij/projecten',         label: 'PROJECTEN' },
