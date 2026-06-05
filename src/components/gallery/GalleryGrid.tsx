@@ -82,7 +82,7 @@ export default function GalleryGrid({ paintings, locale, galleryLabels }: Props)
         >
           {/* Close */}
           <button
-            className="absolute top-4 right-4 z-10 w-9 h-9 flex items-center justify-center rounded-full bg-forest-800/60 text-canvas/70 hover:text-canvas hover:bg-forest-700 transition-colors"
+            className="fixed top-4 right-4 z-[60] w-9 h-9 flex items-center justify-center rounded-full bg-forest-800/60 text-canvas/70 hover:text-canvas hover:bg-forest-700 transition-colors"
             onClick={() => setSelected(null)}
             aria-label="Sluiten"
           >
