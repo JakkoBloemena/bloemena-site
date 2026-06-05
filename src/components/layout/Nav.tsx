@@ -9,8 +9,8 @@ import { Menu, X, ChevronDown } from 'lucide-react'
 const mainNavKeys = ['paintings', 'drawings', 'lessons', 'contact'] as const
 
 const navHrefs: Record<string, string> = {
-  paintings:  '/schilderijen',
-  drawings:   '/tekeningen',
+  paintings:  '/#schilderijen',
+  drawings:   '/#tekeningen',
   lessons:    '/schilderlessen',
   contact:    '/contact',
 }

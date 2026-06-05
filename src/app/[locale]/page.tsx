@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { getTranslations } from 'next-intl/server'
 import { createClient } from '@/lib/supabase/server'
 import HeroCarousel from '@/components/gallery/HeroCarousel'
+import GalleryGrid from '@/components/gallery/GalleryGrid'
 import type { Locale } from '@/types'
 
 function localePath(locale: string, path: string) {
@@ -12,47 +13,52 @@ function localePath(locale: string, path: string) {
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   const t = await getTranslations('home')
+  const p = await getTranslations('paintings')
+  const d = await getTranslations('drawings')
+  const g = await getTranslations('gallery')
   const supabase = await createClient()
 
-  const { data: featured } = await supabase
-    .from('paintings')
-    .select('*')
-    .eq('featured', true)
-    .order('sort_order')
+  const [{ data: featured }, { data: posts }, { data: paintings }, { data: drawings }] = await Promise.all([
+    supabase.from('paintings').select('*').eq('featured', true).order('sort_order'),
+    supabase.from('posts').select('id, title_nl, title_en, published_at, image_url').order('published_at', { ascending: false }).limit(3),
+    supabase.from('paintings').select('*').eq('category', 'schilderij').order('year', { ascending: false, nullsFirst: false }).order('created_at', { ascending: false }),
+    supabase.from('paintings').select('*').eq('category', 'tekening').order('year', { ascending: false, nullsFirst: false }).order('created_at', { ascending: false }),
+  ])
 
-  const { data: posts } = await supabase
-    .from('posts')
-    .select('id, title_nl, title_en, published_at, image_url')
-    .order('published_at', { ascending: false })
-    .limit(3)
+  const galleryLabels = {
+    year: g('year'),
+    medium: g('medium'),
+    dimensions: g('dimensions'),
+    cm: g('cm'),
+    forSale: g('forSale'),
+  }
 
   const title = (item: { title_nl: string; title_en: string }) =>
     locale === 'nl' ? item.title_nl : item.title_en
 
   return (
     <>
-      {/* Hero carousel — auto-rotates featured paintings */}
+      {/* Hero carousel */}
       {featured && featured.length > 0 ? (
         <HeroCarousel paintings={featured} locale={locale as Locale} />
       ) : (
-        /* Fallback if no featured paintings set yet */
         <section className="relative bg-forest-900 text-canvas py-28 md:py-40 text-center px-5">
           <p className="text-forest-200 text-xs tracking-[0.3em] uppercase mb-6 font-medium">{t('tagline')}</p>
           <h1 className="font-playfair text-6xl md:text-8xl font-bold leading-none tracking-tight mb-10">
             Wiebe<br /><span className="text-ochre-400">Bloemena</span>
           </h1>
           <div className="flex gap-4 justify-center flex-wrap">
-            <Link href={localePath(locale, '/schilderijen')} className="px-7 py-3 bg-ochre-500 text-canvas text-sm font-medium tracking-wide hover:bg-ochre-400 transition-colors rounded-sm">
+            <a href="#schilderijen" className="px-7 py-3 bg-ochre-500 text-canvas text-sm font-medium tracking-wide hover:bg-ochre-400 transition-colors rounded-sm">
               {t('viewPaintings')}
-            </Link>
-            <Link href={localePath(locale, '/tekeningen')} className="px-7 py-3 border border-forest-700 text-forest-200 text-sm font-medium tracking-wide hover:border-ochre-500 hover:text-ochre-400 transition-colors rounded-sm">
+            </a>
+            <a href="#tekeningen" className="px-7 py-3 border border-forest-700 text-forest-200 text-sm font-medium tracking-wide hover:border-ochre-500 hover:text-ochre-400 transition-colors rounded-sm">
               {t('viewDrawings')}
-            </Link>
+            </a>
           </div>
         </section>
       )}
 
-      {/* Quote — parchment */}
+      {/* Quote */}
       <section className="py-20 px-5 bg-parchment">
         <div className="max-w-3xl mx-auto text-center">
           <div className="flex items-center gap-4 justify-center mb-8">
@@ -72,9 +78,33 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         </div>
       </section>
 
+      {/* Schilderijen */}
+      <section id="schilderijen" className="scroll-mt-20 py-16 px-5 bg-canvas">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="font-playfair text-4xl font-bold text-forest-900 mb-10">{p('title')}</h2>
+          {paintings && paintings.length > 0 ? (
+            <GalleryGrid paintings={paintings} locale={locale as Locale} galleryLabels={galleryLabels} />
+          ) : (
+            <p className="text-ink-muted">{p('noWork')}</p>
+          )}
+        </div>
+      </section>
+
+      {/* Tekeningen */}
+      <section id="tekeningen" className="scroll-mt-20 py-16 px-5 bg-forest-50">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="font-playfair text-4xl font-bold text-forest-900 mb-10">{d('title')}</h2>
+          {drawings && drawings.length > 0 ? (
+            <GalleryGrid paintings={drawings} locale={locale as Locale} galleryLabels={galleryLabels} />
+          ) : (
+            <p className="text-ink-muted">{d('noWork')}</p>
+          )}
+        </div>
+      </section>
+
       {/* Latest news */}
       {posts && posts.length > 0 && (
-        <section className="py-16 px-5 bg-forest-50">
+        <section className="py-16 px-5 bg-forest-50 border-t border-forest-100">
           <div className="max-w-4xl mx-auto">
             <div className="flex items-end justify-between mb-10">
               <h2 className="font-playfair text-3xl font-bold text-forest-900">{t('latestNews')}</h2>

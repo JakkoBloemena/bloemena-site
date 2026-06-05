@@ -31,6 +31,7 @@
   --color-ink-muted: #5a5040;
 }
 
+html { scroll-behavior: smooth; }
 * { box-sizing: border-box; }
 
 /* Tiptap editor styles */
